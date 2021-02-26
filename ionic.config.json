@@ -1,0 +1,7 @@
+{
+  "name": "VMWare-Cloud-Provider-Service-Mobile",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
