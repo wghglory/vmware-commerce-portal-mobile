@@ -1,0 +1,37 @@
+<ion-content [fullscreen]="true">
+  <div id="container">
+    <img src="../../assets/login.png"
+      alt="login picture">
+
+    <form class="login-form">
+      <section class="title">
+        <h3 class="welcome">VMware Cloud Provider</h3>
+        <h2>COMMERCE PORTAL</h2>
+      </section>
+
+      <section class="ion-margin ion-padding input-container">
+        <ion-list lines="full">
+          <ion-item>
+            <ion-label position="floating">Username <ion-text color="danger">*</ion-text>
+            </ion-label>
+            <ion-input required
+              type="text"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Password <ion-text color="danger">*</ion-text>
+            </ion-label>
+            <ion-input required
+              type="password"></ion-input>
+          </ion-item>
+        </ion-list>
+
+        <div class="ion-padding">
+          <ion-button expand="block"
+            type="submit"
+            class="ion-no-margin">Login</ion-button>
+        </div>
+      </section>
+    </form>
+  </div>
+</ion-content>
