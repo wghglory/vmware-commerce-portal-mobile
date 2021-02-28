@@ -3,7 +3,9 @@
     <img src="../../assets/login.png"
       alt="login picture">
 
-    <form class="login-form">
+    <form class="login-form"
+      [formGroup]="loginForm"
+      (ngSubmit)="login()">
       <section class="title">
         <h3 class="welcome">VMware Cloud Provider</h3>
         <h2>COMMERCE PORTAL</h2>
@@ -15,6 +17,7 @@
             <ion-label position="floating">Username <ion-text color="danger">*</ion-text>
             </ion-label>
             <ion-input required
+              formControlName="username"
               type="text"></ion-input>
           </ion-item>
 
@@ -22,6 +25,7 @@
             <ion-label position="floating">Password <ion-text color="danger">*</ion-text>
             </ion-label>
             <ion-input required
+              formControlName="password"
               type="password"></ion-input>
           </ion-item>
         </ion-list>
