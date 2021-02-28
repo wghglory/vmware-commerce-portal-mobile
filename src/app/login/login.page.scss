@@ -1,11 +1,25 @@
 #container {
   text-align: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 
-  .login-form {
-    margin-top: 4rem;
+  .login-bg {
+    background-image: url(../../assets/login.png);
+    height: 200px;
+    background-size: cover;
+    background-repeat: no-repeat;
   }
 
-  .input-container {
-    margin-top: 3rem;
+  .login-form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-top: 4rem;
+
+    .input-container {
+      flex: 1;
+      margin-top: 3rem;
+    }
   }
 }
