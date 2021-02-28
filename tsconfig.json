@@ -2,6 +2,10 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "paths": {
+      "@vcp-env/*": ["src/environments/*"],
+      "@vcp-core/*": ["src/app/core/*"]
+    },
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
