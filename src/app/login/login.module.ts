@@ -5,6 +5,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
+import { CoreModule } from '@vcp-core/core.module';
+
 import { LoginPage } from './login.page';
 
 const routes: Routes = [
@@ -15,12 +17,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    IonicModule,
-    RouterModule.forChild(routes),
-  ],
+  imports: [CommonModule, ReactiveFormsModule, IonicModule, CoreModule, RouterModule.forChild(routes)],
   declarations: [LoginPage],
 })
 export class LoginPageModule {}

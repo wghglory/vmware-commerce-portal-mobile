@@ -32,7 +32,17 @@
         <div class="ion-padding">
           <ion-button expand="block"
             type="submit"
-            class="ion-no-margin">Login</ion-button>
+            [disabled]="submitting || loginForm.invalid"
+            class="ion-no-margin">
+            <ion-spinner *ngIf="submitting"
+              name="circles"></ion-spinner>
+            Login
+          </ion-button>
+
+          <ion-text color="danger"
+            *ngIf="error">
+            <p>{{ error.message }}</p>
+          </ion-text>
         </div>
       </section>
     </form>
