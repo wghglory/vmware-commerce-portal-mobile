@@ -1,20 +1,27 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
+import { AuthGuard } from '@vcp-core/services/auth.guard';
+
 const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./login/login.module').then((m) => m.LoginPageModule),
   },
   {
+  {
     path: 'home',
     loadChildren: () => import('./home/home.module').then((m) => m.HomePageModule),
+    canActivate: [AuthGuard],
   },
   {
-    // todo: start from login. Change this back to home after adding guard.
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'home',
     pathMatch: 'full',
+  },
+  {
+    path: '**',
+    redirectTo: 'login',
   },
 ];
 

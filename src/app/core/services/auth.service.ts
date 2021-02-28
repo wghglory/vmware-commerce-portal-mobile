@@ -4,38 +4,52 @@ import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 
 import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 
 import { environment } from '@vcp-env/environment.prod';
+import { XSRF_TOKEN, CURRENT_USER } from '@vcp-share/const';
 
-import { AuthResponse, User } from '../models/user';
+import { AuthResponse, Login } from '../models/user';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  authSubject = new BehaviorSubject(false);
-
   constructor(private httpClient: HttpClient, private storage: Storage) {}
 
-  login(user: User): Observable<AuthResponse> {
-    return this.httpClient.post(`${environment.apiPrefix}/session`, user).pipe(
-      tap(async (res: AuthResponse) => {
-        if (res.user) {
-          // todo: update based on real API response
-          await this.storage.set('TOKEN', res.user.token); // web: indexedDB
-          this.authSubject.next(true);
+  tokenSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  currentUserSubject: BehaviorSubject<AuthResponse> = new BehaviorSubject<AuthResponse>(null);
+
+  get token() {
+    return this.tokenSubject.value;
+  }
+
+  get currentUser(): AuthResponse {
+    return this.currentUserSubject.value;
+  }
+
+  fetchStorage() {
+    return this.storage
+      .forEach((v, k) => {
+        if (k === XSRF_TOKEN) {
+          this.tokenSubject.next(v);
+        } else if (k === CURRENT_USER) {
+          this.currentUserSubject.next(v);
         }
-      }),
-    );
+      })
+      .then(() => {
+        // console.log(this.token, this.currentUser);
+        return this.token !== '';
+      });
+  }
+
+  login(data: Login): Observable<AuthResponse> {
+    return this.httpClient.post<AuthResponse>(`${environment.apiPrefix}/iam/session`, data);
   }
 
   async logout() {
-    await this.storage.remove('TOKEN');
-    this.authSubject.next(false);
-  }
-
-  isAuthenticated() {
-    return this.authSubject.asObservable();
+    await this.storage.remove(XSRF_TOKEN);
+    await this.storage.remove(CURRENT_USER);
+    this.tokenSubject.next('');
+    this.currentUserSubject.next(null);
   }
 }

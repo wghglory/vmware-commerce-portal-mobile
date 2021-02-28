@@ -1,5 +1,4 @@
 export const base = {
-  // todo: update this to real endpoint
-  apiUrl: 'https://6726b461-1764-41dc-aff0-1acb9754adf9.mock.pstmn.io',
+  apiUrl: 'https://vcp-uat2.vdp-stg.vmware.com/api', //https://4aeb705f-384c-40d5-880c-5f473b687d7e.mock.pstmn.io/api
   apiPrefix: '/api',
 };

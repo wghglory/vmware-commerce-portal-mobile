@@ -4,7 +4,8 @@
   "compilerOptions": {
     "paths": {
       "@vcp-env/*": ["src/environments/*"],
-      "@vcp-core/*": ["src/app/core/*"]
+      "@vcp-core/*": ["src/app/core/*"],
+      "@vcp-share/*": ["src/app/share/*"]
     },
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",

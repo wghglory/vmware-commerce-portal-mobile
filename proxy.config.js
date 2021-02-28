@@ -9,9 +9,20 @@ const PROXY_CONFIG = {
   // },
 
   '/api': {
-    target: 'https://6726b461-1764-41dc-aff0-1acb9754adf9.mock.pstmn.io',
+    target: 'https://vcp-uat2.vdp-stg.vmware.com', // https://4aeb705f-384c-40d5-880c-5f473b687d7e.mock.pstmn.io
     changeOrigin: true,
     secure: false,
+    pathRewrite: {
+      '^/api': '/api',
+    },
+    onProxyRes(proxyResponse) {
+      const cookies = proxyResponse.headers['set-cookie'];
+      const prune = (cookie = '') => cookie.replace(/;\W*secure/gi, '').replace(/;\W*SameSite=None/gi, '');
+
+      if (cookies) {
+        proxyResponse.headers['set-cookie'] = cookies.map(prune);
+      }
+    },
   },
 };
 
