@@ -1,5 +1,5 @@
 {
-  "appId": "io.ionic.starter",
+  "appId": "vmware.commerce",
   "appName": "vCommerce",
   "bundledWebRuntime": false,
   "npmClient": "npm",
@@ -9,9 +9,5 @@
       "launchShowDuration": 0
     }
   },
-  "cordova": {},
-  "server": {
-    "url": "http://192.168.0.102:8100",
-    "cleartext": true
-  }
+  "cordova": {}
 }

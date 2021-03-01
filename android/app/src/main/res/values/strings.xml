@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">vCommerce</string>
+    <string name="title_activity_main">vCommerce</string>
+    <string name="package_name">vmware.commerce</string>
+    <string name="custom_url_scheme">vmware.commerce</string>
+</resources>

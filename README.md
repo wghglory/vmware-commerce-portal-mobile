@@ -1,5 +1,9 @@
 # VMware cloud provider service mobile
 
+## Get Started
+
+Run `npm start` to view UI via browser.
+
 ## Capacitor Setup
 
 ### Build
@@ -38,6 +42,31 @@ ionic cap open ios # start without live reload
 npm run start.ios # ionic cap run ios -l --external (live reload)
 ```
 
-## Debugging iOS Apps
+### Debugging iOS Apps
 
-<https://ionicframework.com/docs/developing/ios>
+<https://ionicframework.com/docs/developing/ios#debugging-ios-apps>
+
+## Android Deployment
+
+```shell
+ionic cap open android # start without live reload
+
+npm run start.android # ionic cap run android -l --external (live reload)
+```
+
+### Debugging Android Apps
+
+Run the app by AVD and paste this into Chrome: `chrome://inspect/#devices`
+
+<https://ionicframework.com/docs/developing/android#debugging-android-apps>
+
+## Contribute
+
+**Run `npm run cz` to commit!**
+
+## Reference
+
+- <https://ionicframework.com/docs/angular/your-first-app/6-deploying-mobile>
+- <https://ionicframework.com/docs/angular/your-first-app/7-live-reload>
+- <https://ionicframework.com/docs/developing/android>
+- <https://ionicframework.com/docs/developing/ios>
