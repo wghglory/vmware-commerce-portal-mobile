@@ -1,3 +1,4 @@
+import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -23,7 +24,7 @@ export class LoginPage implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private router: Router,
+    private navCtrl: NavController,
     private cookieService: CookieService,
     private storage: Storage,
   ) {}
@@ -64,7 +65,7 @@ export class LoginPage implements OnInit, OnDestroy {
         async (authRes) => {
           await this.saveTokenAndUserInfo(authRes);
 
-          this.router.navigate(['/home']);
+          this.navCtrl.navigateRoot(['/home']);
         },
         (err: HttpErrorResponse) => {
           this.error = err.error;
@@ -74,10 +75,10 @@ export class LoginPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      // username: ['testspadmin@vmware.com.mock', Validators.required],
-      // password: ['Test@123', Validators.required],
-      username: ['', Validators.required],
-      password: ['', Validators.required],
+      username: ['testspadmin@vmware.com.mock', Validators.required],
+      password: ['Test@123', Validators.required],
+      // username: ['', Validators.required],
+      // password: ['', Validators.required],
     });
   }
 
