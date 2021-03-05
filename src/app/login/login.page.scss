@@ -5,8 +5,8 @@
   flex-direction: column;
 
   .login-bg {
-    background-image: url(../../assets/login.png);
-    height: 200px;
+    background-image: url(../../assets/images/login.png);
+    height: 12rem;
     background-size: cover;
     background-repeat: no-repeat;
   }
@@ -15,11 +15,22 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    margin-top: 4rem;
+    justify-content: center;
+    margin-top: 2rem;
+
+    .logo {
+      background-image: url(../../assets/images/logo.svg);
+      background-repeat: no-repeat;
+      display: inline-block;
+      width: 4rem;
+      height: 4rem;
+    }
 
     .input-container {
-      flex: 1;
-      margin-top: 3rem;
+      margin-top: 2rem;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
     }
   }
 }

@@ -6,8 +6,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { finalize, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
-import { User } from '@vcp-core/models/user';
+import { CookieService } from 'ngx-cookie-service';
+
+import { Storage } from '@ionic/storage';
+
+import { Login } from '@vcp-core/models/user';
 import { AuthService } from '@vcp-core/services/auth.service';
+import { CURRENT_USER, XSRF_TOKEN } from '@vcp-share/const';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +20,13 @@ import { AuthService } from '@vcp-core/services/auth.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit, OnDestroy {
-  constructor(private formBuilder: FormBuilder, private auth: AuthService, private router: Router) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private cookieService: CookieService,
+    private storage: Storage,
+  ) {}
 
   unsubscribe = new Subject();
 
@@ -23,11 +34,14 @@ export class LoginPage implements OnInit, OnDestroy {
   submitting = false;
   error: any;
 
-  ngOnInit() {
-    this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required],
-    });
+  async saveTokenAndUserInfo(user) {
+    const token = this.cookieService.get(XSRF_TOKEN);
+
+    this.authService.tokenSubject.next(token);
+    this.authService.currentUserSubject.next(user);
+
+    await this.storage.set(XSRF_TOKEN, token); // web: indexedDB
+    await this.storage.set(CURRENT_USER, user); // web: indexedDB
   }
 
   login() {
@@ -38,8 +52,8 @@ export class LoginPage implements OnInit, OnDestroy {
     this.submitting = true;
     const { username, password } = this.loginForm.value;
 
-    this.auth
-      .login({ username, password } as User)
+    this.authService
+      .login({ username, password } as Login)
       .pipe(
         takeUntil(this.unsubscribe),
         finalize(() => {
@@ -47,13 +61,24 @@ export class LoginPage implements OnInit, OnDestroy {
         }),
       )
       .subscribe(
-        (res) => {
-          this.router.navigate(['home']);
+        async (authRes) => {
+          await this.saveTokenAndUserInfo(authRes);
+
+          this.router.navigate(['/home']);
         },
         (err: HttpErrorResponse) => {
           this.error = err.error;
         },
       );
+  }
+
+  ngOnInit() {
+    this.loginForm = this.formBuilder.group({
+      // username: ['testspadmin@vmware.com.mock', Validators.required],
+      // password: ['Test@123', Validators.required],
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+    });
   }
 
   ngOnDestroy() {
