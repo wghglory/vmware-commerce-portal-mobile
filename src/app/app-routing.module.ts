@@ -9,23 +9,18 @@ const routes: Routes = [
     loadChildren: () => import('./views/login/login.module').then((m) => m.LoginPageModule),
   },
   {
-    path: 'me',
-    loadChildren: () => import('./views/me/me.module').then((m) => m.MePageModule),
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'home',
-    loadChildren: () => import('./views/home/home.module').then((m) => m.HomePageModule),
+    path: 'tabs',
+    loadChildren: () => import('./views/tabs/tabs.module').then((m) => m.TabsPageModule),
     canActivate: [AuthGuard],
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'tabs',
     pathMatch: 'full',
   },
   {
     path: '**',
-    redirectTo: 'login',
+    redirectTo: 'tabs',
   },
 ];
 

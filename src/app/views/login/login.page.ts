@@ -65,7 +65,7 @@ export class LoginPage implements OnInit, OnDestroy {
         async (authRes) => {
           await this.saveTokenAndUserInfo(authRes);
 
-          this.navCtrl.navigateRoot(['/home']);
+          this.navCtrl.navigateRoot(['/tabs']);
         },
         (err: HttpErrorResponse) => {
           this.error = err.error;

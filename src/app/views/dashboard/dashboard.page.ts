@@ -1,5 +1,5 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { Subject } from 'rxjs';
 import { takeUntil, finalize } from 'rxjs/operators';
@@ -7,11 +7,11 @@ import { takeUntil, finalize } from 'rxjs/operators';
 import { UsageService } from './usage.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.page.html',
+  styleUrls: ['./dashboard.page.scss'],
 })
-export class HomePage {
+export class DashboardPage {
   constructor(private usageService: UsageService) {}
 
   unsubscribe = new Subject();
