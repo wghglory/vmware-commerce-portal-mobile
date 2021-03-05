@@ -6,16 +6,16 @@ import { AuthGuard } from '@vcp-core/services/auth.guard';
 const routes: Routes = [
   {
     path: 'login',
-    loadChildren: () => import('./login/login.module').then((m) => m.LoginPageModule),
+    loadChildren: () => import('./views/login/login.module').then((m) => m.LoginPageModule),
   },
   {
     path: 'me',
-    loadChildren: () => import('./me/me.module').then((m) => m.MePageModule),
+    loadChildren: () => import('./views/me/me.module').then((m) => m.MePageModule),
     canActivate: [AuthGuard],
   },
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then((m) => m.HomePageModule),
+    loadChildren: () => import('./views/home/home.module').then((m) => m.HomePageModule),
     canActivate: [AuthGuard],
   },
   {
