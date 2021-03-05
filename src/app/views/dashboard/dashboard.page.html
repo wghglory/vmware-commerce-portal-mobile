@@ -1,5 +1,18 @@
 <ion-content [fullscreen]="true">
-  <div>
-    Dashboard
-  </div>
+
+  <ion-card>
+    <img src="../../../assets/images/shapes.svg" />
+    <ion-card-header>
+      <ion-card-subtitle>Usage Reports (Last 12 Months)</ion-card-subtitle>
+      <ion-card-title>Usage</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="dashboard-container"
+        #dashboardContainer>
+        <div #usageContainer
+          style="height:15rem;"></div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>
