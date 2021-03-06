@@ -1,7 +1,8 @@
 <ion-content [fullscreen]="true">
   <div>
     <ion-card>
-      <img src="../../../assets/images/shapes.svg" />
+      <img src="../../../assets/images/shapes.svg"
+        style="width: 100%;" />
       <ion-card-header>
         <ion-card-subtitle>About Me</ion-card-subtitle>
         <ion-card-title>Derek, Wang</ion-card-title>
@@ -11,4 +12,19 @@
       </ion-card-content>
     </ion-card>
   </div>
+
+  <ion-card class="ion-padding-top">
+    <ion-card-header>
+      <ion-card-title class="card-title">
+        <ion-icon name="stats-chart"
+          color="primary"></ion-icon>
+        &nbsp;Usage Report
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content style="text-align: center;">
+      <canvas id="myChart"
+        height="260"></canvas>
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>
