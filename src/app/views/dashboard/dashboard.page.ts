@@ -7,7 +7,7 @@ import { takeUntil, finalize } from 'rxjs/operators';
 // todo: tree shaking
 import * as echarts from 'echarts';
 
-import { UsageService } from './usage.service';
+import { UsageReport, UsageService } from './usage.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,44 +22,14 @@ export class DashboardPage {
 
   unsubscribe = new Subject();
   loading = false;
+  echartInstance;
+  echartDataset = [['contractId', 'contractReferenceNumber', 'contractNumber', 'yearMonth', 'pointsTotal']];
+  contractReferenceNumbers = [];
 
   error: any;
 
   option = {
-    dataset: [
-      {
-        id: 'dataset_raw',
-        source: [
-          ['contractId', 'contractReferenceNumber', 'contractNumber', 'yearMonth', 'pointsTotal'],
-          ['1967322a-c083-4a19-8db0-6bd12e2ded78', 'AMER00007SRV', '104720471883777', '2020-02', 5500],
-          ['1967322a-c083-4a19-8db0-6bd12e2ded78', 'AMER00007SRV', '104720471883777', '2020-03', 5500],
-          ['1967322a-c083-4a19-8db0-6bd12e2ded78', 'AMER00007SRV', '104720471883777', '2020-04', 5500],
-          ['1967322a-c083-4a19-8db0-6bd12e2ded78', 'AMER00007SRV', '104720471883777', '2020-05', 5500],
-          ['1967322a-c083-4a19-8db0-6bd12e2ded78', 'AMER00007SRV', '104720471883777', '2020-06', 5500],
-          ['1967322a-c083-4a19-8db0-6bd12e2ded78', 'AMER00007SRV', '104720471883777', '2020-07', 5500],
-          ['1967322a-c083-4a19-8db0-6bd12e2ded78', 'AMER00007SRV', '104720471883777', '2020-08', 5500],
-          ['1967322a-c083-4a19-8db0-6bd12e2ded78', 'AMER00007SRV', '104720471883777', '2020-09', 5500],
-          ['1967322a-c083-4a19-8db0-6bd12e2ded78', 'AMER00007SRV', '104720471883777', '2020-10', 6500],
-          ['1967322a-c083-4a19-8db0-6bd12e2ded78', 'AMER00007SRV', '104720471883777', '2020-11', 7500],
-          ['1967322a-c083-4a19-8db0-6bd12e2ded78', 'AMER00007SRV', '104720471883777', '2020-12', 8500],
-          ['1967322a-c083-4a19-8db0-6bd12e2ded78', 'AMER00007SRV', '104720471883777', '2021-01', 9500],
-          ['1967322a-c083-4a19-8db0-6bd12e2ded78', 'AMER00007SRV', '104720471883777', '2021-02', 5500],
-        ],
-      },
-      {
-        id: 'dataset_since_for_AMER00007SRV',
-        fromDatasetId: 'dataset_raw',
-        transform: {
-          type: 'filter',
-          config: {
-            and: [
-              // { dimension: 'Year', gte: 1950 },
-              { dimension: 'contractReferenceNumber', '=': 'AMER00007SRV' },
-            ],
-          },
-        },
-      },
-    ],
+    dataset: [],
     grid: {
       left: '20%',
     },
@@ -107,23 +77,7 @@ export class DashboardPage {
         verticalAlign: 'bottom',
       },
     },
-    series: [
-      {
-        type: 'bar',
-        smooth: true,
-        color: '#0072a3',
-        width: 10,
-        barWidth: '30%',
-        datasetId: 'dataset_since_for_AMER00007SRV',
-        showSymbol: false,
-        encode: {
-          x: 'yearMonth',
-          y: 'pointsTotal',
-          itemName: 'yearMonth',
-          tooltip: ['pointsTotal'],
-        },
-      },
-    ],
+    series: [],
   };
 
   getUsage() {
@@ -140,11 +94,89 @@ export class DashboardPage {
       .subscribe(
         (res) => {
           console.log(res);
+          this.drawChart(res);
         },
         (err: HttpErrorResponse) => {
           this.error = err.error;
         },
       );
+  }
+
+  drawChart(data: UsageReport) {
+    let source: any[] = [['contractId', 'contractReferenceNumber', 'contractNumber', 'yearMonth', 'pointsTotal']];
+    let datasetItems = [];
+    let series = [];
+
+    data.content.forEach((c) => {
+      this.contractReferenceNumbers.push(c.contractReferenceNumber);
+
+      datasetItems.push({
+        id: `dataset_for_${c.contractReferenceNumber}`,
+        fromDatasetId: 'dataset_raw',
+        transform: {
+          type: 'filter',
+          config: {
+            and: [{ dimension: 'contractReferenceNumber', '=': c.contractReferenceNumber }],
+          },
+        },
+      });
+
+      c.usages.forEach((u) => {
+        source.push([c.contractId, c.contractReferenceNumber, u.contractNumber, u.yearMonth, u.pointsTotal]);
+      });
+    });
+
+    // initial series
+    series = [
+      {
+        type: 'bar',
+        smooth: true,
+        color: '#0072a3',
+        width: 10,
+        barWidth: '30%',
+        datasetId: `dataset_for_${this.contractReferenceNumbers[0]}`,
+        showSymbol: false,
+        encode: {
+          x: 'yearMonth',
+          y: 'pointsTotal',
+          itemName: 'yearMonth',
+          tooltip: ['pointsTotal'],
+        },
+      },
+    ];
+
+    let dataset = [
+      {
+        id: 'dataset_raw',
+        source,
+      },
+      ...datasetItems,
+      // {
+      //   id: 'dataset_for_AMER00007SRV',
+      //   fromDatasetId: 'dataset_raw',
+      //   transform: {
+      //     type: 'filter',
+      //     config: {
+      //       and: [
+      //         // { dimension: 'Year', gte: 1950 },
+      //         { dimension: 'contractReferenceNumber', '=': 'AMER00007SRV' },
+      //       ],
+      //     },
+      //   },
+      // },
+    ];
+
+    this.option = {
+      ...this.option,
+      dataset,
+      series,
+    };
+
+    console.log(this.option);
+
+    this.echartInstance.setOption(this.option);
+
+    return dataset;
   }
 
   ngOnInit() {
@@ -158,9 +190,9 @@ export class DashboardPage {
       console.log(`${this.dashboardContainer.nativeElement.offsetWidth}px`);
       // this.usageContainer.nativeElement.style.width = `${this.usageContainer.nativeElement.offsetWidth}px`;
       // initialize the echarts instance
-      const myChart = echarts.init(this.usageContainer.nativeElement, null, { renderer: 'svg' });
+      this.echartInstance = echarts.init(this.usageContainer.nativeElement, null, { renderer: 'svg' });
 
-      myChart.setOption(this.option);
+      // this.echartInstance.setOption(this.option);
     }, 100);
   }
 }
