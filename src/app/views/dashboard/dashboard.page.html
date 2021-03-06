@@ -1,16 +1,31 @@
-<ion-content [fullscreen]="true">
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Report
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
 
-  <ion-card>
-    <img src="../../../assets/images/shapes.svg" />
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Report</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-card class="ion-padding-top">
     <ion-card-header>
-      <ion-card-subtitle>Usage Reports (Last 12 Months)</ion-card-subtitle>
-      <ion-card-title>Usage</ion-card-title>
+      <ion-card-title class="card-title">
+        <ion-icon name="stats-chart"
+          color="primary"></ion-icon>
+        &nbsp;Usage Report
+      </ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <div class="dashboard-container"
         #dashboardContainer>
         <div #usageContainer
-          style="height:15rem;"></div>
+          style="height:18rem;"></div>
       </div>
     </ion-card-content>
   </ion-card>
