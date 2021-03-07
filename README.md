@@ -64,6 +64,14 @@ Run the app by AVD and paste this into Chrome: `chrome://inspect/#devices`
 
 **Run `npm run cz` to commit!**
 
+## Screenshots
+
+<img src="./screenshots/login.png" width="400">
+
+<img src="./screenshots/dashboard.png" width="400">
+
+<img src="./screenshots/me.png" width="400">
+
 ## Reference
 
 - <https://ionicframework.com/docs/angular/your-first-app/6-deploying-mobile>
