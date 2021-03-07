@@ -81,7 +81,7 @@ export class DashboardPage {
       {
         type: 'bar',
         smooth: true,
-        color: '#0072a3',
+        color: '#1e94fc',
         width: 10,
         barWidth: '30%',
         datasetId: this.contractReferenceNumbers[0],
