@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 
 import F2 from '@antv/f2';
 
@@ -6,6 +6,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { Subject } from 'rxjs';
 import { takeUntil, finalize } from 'rxjs/operators';
+
+import { Storage } from '@ionic/storage';
+
+import { CURRENT_USER } from '@vcp-share/const';
+import { User } from '@vcp-core/models/user';
 
 import { Usage, UsageReport, UsageService } from '../dashboard//usage.service';
 import { chartSourceConfig, tooltipConfig } from './chart-config';
@@ -15,8 +20,8 @@ import { chartSourceConfig, tooltipConfig } from './chart-config';
   templateUrl: './me.page.html',
   styleUrls: ['./me.page.scss'],
 })
-export class MePage implements AfterViewInit {
-  constructor(private usageService: UsageService) {}
+export class MePage implements AfterViewInit, OnInit {
+  constructor(private usageService: UsageService, private storage: Storage) {}
 
   @ViewChild('usageContainer') usageContainer: ElementRef;
 
@@ -29,14 +34,35 @@ export class MePage implements AfterViewInit {
   selectedContractReferenceNumber: string;
 
   error: any;
+  user: User = {} as User;
 
   get currentData() {
     return this.usageReport?.content.find((c) => c.contractReferenceNumber === this.selectedContractReferenceNumber)
       .usages;
   }
 
-  ngOnInit() {
+  get name() {
+    return `${this.user.firstName}, ${this.user.lastName}`;
+  }
+
+  badgeColor(i: number) {
+    switch (i % 3) {
+      case 0:
+        return 'success';
+      case 1:
+        return 'tertiary';
+      case 2:
+        return 'secondary';
+      default:
+        return '';
+    }
+  }
+
+  async ngOnInit() {
     this.getUsage();
+
+    const { user } = await this.storage.get(CURRENT_USER);
+    this.user = user;
   }
 
   getUsage() {

@@ -1,17 +1,25 @@
 <ion-content [fullscreen]="true">
-  <ion-card class="ion-padding-top">
-    <img src="../../../assets/images/shapes.svg"
-      style="width: 100%;" />
-    <ion-card-header>
-      <ion-card-subtitle>About Me</ion-card-subtitle>
-      <ion-card-title>Derek, Wang</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      Still working on react and vue.
-    </ion-card-content>
-  </ion-card>
+  <section class="user-section">
+    <div class="avatar-container">
+      <div class="square"></div>
 
-  <ion-card>
+      <ion-avatar>
+        <img src="../../../assets/images/avatar.svg">
+      </ion-avatar>
+    </div>
+
+    <div class="user-container">
+      <div class="email">{{ user.email }}</div>
+      <h2>{{ name }}</h2>
+      <div class="badges">
+        <ion-badge [color]="badgeColor(i)"
+          style="margin: 0 1rem 0.5rem 0; line-height: 1rem;"
+          *ngFor="let r of user.roles; index as i">{{ r.name }}</ion-badge>
+      </div>
+    </div>
+  </section>
+
+  <section class="usage-section">
     <ion-card-header>
       <ion-card-title class="card-title">
         <ion-icon name="stats-chart"
@@ -19,15 +27,14 @@
         &nbsp;Usage Report
       </ion-card-title>
     </ion-card-header>
-    <ion-card-content style="text-align: center;">
+    <ion-card-content>
       <div #usageContainer>
-        Usage Report For the Last 12 Month
         <!-- canvas style height won't affect rendering height, 0 means to give space for skeleton -->
         <canvas id="myChart"
           style="height: 0"></canvas>
         <ion-skeleton-text animated
           style="height: 240px;"
-          *ngIf="!selectedContractReferenceNumber &&!error"></ion-skeleton-text>
+          *ngIf="!selectedContractReferenceNumber && !error"></ion-skeleton-text>
       </div>
 
       <ion-text color="danger"
@@ -45,8 +52,7 @@
             *ngFor="let c of contractReferenceNumbers">{{ c }}</ion-select-option>
         </ion-select>
       </ion-item>
-
     </ion-card-content>
-  </ion-card>
+  </section>
 
 </ion-content>

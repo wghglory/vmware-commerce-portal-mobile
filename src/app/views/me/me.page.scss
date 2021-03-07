@@ -1,3 +1,75 @@
-.card-title {
-  font-size: 1.2rem;
+.user-section {
+  position: relative;
+  text-align: center;
+  background: linear-gradient(to right, #a0ddea, #50e3c2);
+
+  .avatar-container {
+    height: 6rem;
+
+    .square {
+      background: linear-gradient(to right, #1595b6, rgba(31, 38, 103, 0.9));
+      width: 13rem;
+      height: 13rem;
+      position: absolute;
+      top: -60px;
+      left: 50%;
+      animation: 1s squareMove 250ms ease-out both;
+      z-index: 1;
+    }
+
+    ion-avatar {
+      width: 6rem;
+      height: 6rem;
+      top: 60px;
+      left: 50%;
+      position: absolute;
+      animation: 1s avatarMove 250ms ease-out both;
+      z-index: 2;
+    }
+  }
+
+  .user-container {
+    padding-top: 5rem;
+
+    .email {
+      margin-top: 3rem;
+      color: #666666;
+      margin: 0px 0px 4px;
+      padding: 0px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      text-transform: lowercase;
+    }
+
+    .badges {
+      padding: 0.4rem 0;
+    }
+  }
+}
+
+.usage-section {
+  .card-title {
+    font-size: 1.2rem;
+  }
+}
+
+@keyframes squareMove {
+  from {
+    transform: translateY(-25%) translateX(-50%) rotate(-45deg);
+  }
+
+  to {
+    transform: translateY(-35%) translateX(-50%) rotate(-45deg);
+  }
+}
+
+@keyframes avatarMove {
+  from {
+    transform: translateX(-50%) scale(0.8);
+  }
+
+  to {
+    transform: translateY(5%) translateX(-50%) scale(1);
+  }
 }
