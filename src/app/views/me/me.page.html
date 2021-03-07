@@ -1,19 +1,17 @@
 <ion-content [fullscreen]="true">
-  <div>
-    <ion-card>
-      <img src="../../../assets/images/shapes.svg"
-        style="width: 100%;" />
-      <ion-card-header>
-        <ion-card-subtitle>About Me</ion-card-subtitle>
-        <ion-card-title>Derek, Wang</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        Still working on react and vue.
-      </ion-card-content>
-    </ion-card>
-  </div>
-
   <ion-card class="ion-padding-top">
+    <img src="../../../assets/images/shapes.svg"
+      style="width: 100%;" />
+    <ion-card-header>
+      <ion-card-subtitle>About Me</ion-card-subtitle>
+      <ion-card-title>Derek, Wang</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Still working on react and vue.
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
     <ion-card-header>
       <ion-card-title class="card-title">
         <ion-icon name="stats-chart"
@@ -22,8 +20,32 @@
       </ion-card-title>
     </ion-card-header>
     <ion-card-content style="text-align: center;">
-      <canvas id="myChart"
-        height="260"></canvas>
+      <div #usageContainer>
+        Usage Report For the Last 12 Month
+        <!-- canvas style height won't affect rendering height, 0 means to give space for skeleton -->
+        <canvas id="myChart"
+          style="height: 0"></canvas>
+        <ion-skeleton-text animated
+          style="height: 240px;"
+          *ngIf="!selectedContractReferenceNumber &&!error"></ion-skeleton-text>
+      </div>
+
+      <ion-text color="danger"
+        *ngIf="error">
+        <p>{{ error.message }}</p>
+      </ion-text>
+
+      <ion-item *ngIf="contractReferenceNumbers.length > 0">
+        <ion-label color="primary"
+          position="floating">Contract Number</ion-label>
+        <ion-select placeholder="Select One"
+          (ionChange)="changeContractNumber($event)"
+          [value]="selectedContractReferenceNumber">
+          <ion-select-option [value]="c"
+            *ngFor="let c of contractReferenceNumbers">{{ c }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
     </ion-card-content>
   </ion-card>
 

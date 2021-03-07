@@ -27,7 +27,7 @@
         <div #usageContainer
           style="height:18rem;">
           <ion-skeleton-text animated
-            *ngIf="!selectedContractReferenceNumber &&!error"></ion-skeleton-text>
+            *ngIf="!selectedContractReferenceNumber && !error"></ion-skeleton-text>
           <ion-text color="danger"
             *ngIf="error">
             <p>{{ error.message }}</p>
