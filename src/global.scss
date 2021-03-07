@@ -24,3 +24,16 @@
 @import '~@ionic/angular/css/text-alignment.css';
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
+
+ion-header {
+  background: linear-gradient(to right, #a0ddea, #50e3c2);
+}
+ion-toolbar {
+  --color: var(--ion-color-dark);
+  --background: linear-gradient(to right, #a0ddea, #50e3c2);
+}
+
+.card-title {
+  font-weight: 400;
+  font-size: 1.2rem;
+}
