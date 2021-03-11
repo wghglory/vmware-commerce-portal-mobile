@@ -19,39 +19,4 @@
     </div>
   </section>
 
-  <section class="usage-section">
-    <ion-card-header>
-      <ion-card-title class="card-title">
-        <ion-icon name="stats-chart"
-          color="primary"></ion-icon>
-        &nbsp;Usage Report
-      </ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <div #usageContainer>
-        <!-- canvas style height won't affect rendering height, 0 means to give space for skeleton -->
-        <canvas id="myChart"
-          style="height: 0"></canvas>
-        <ion-skeleton-text animated
-          style="height: 240px;"
-          *ngIf="!selectedContractReferenceNumber && !error"></ion-skeleton-text>
-      </div>
-
-      <ion-text color="danger"
-        *ngIf="error">
-        <p>{{ error.message }}</p>
-      </ion-text>
-
-      <ion-item *ngIf="contractReferenceNumbers.length > 0">
-        <ion-label position="floating">Contract Reference Number</ion-label>
-        <ion-select placeholder="Select One"
-          (ionChange)="changeContractNumber($event)"
-          [value]="selectedContractReferenceNumber">
-          <ion-select-option [value]="c"
-            *ngFor="let c of contractReferenceNumbers">{{ c }}</ion-select-option>
-        </ion-select>
-      </ion-item>
-    </ion-card-content>
-  </section>
-
 </ion-content>

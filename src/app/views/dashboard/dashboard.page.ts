@@ -4,11 +4,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { takeUntil, finalize } from 'rxjs/operators';
 
-// todo: tree shaking
-import * as echarts from 'echarts';
+import F2 from '@antv/f2';
 
-import { UsageReport, UsageService } from './usage.service';
-import { echartOption } from './echart-config';
+import { Usage, UsageReport, UsageService } from './usage.service';
+import { chartSourceConfig, tooltipConfig } from './chart-config';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,18 +17,22 @@ import { echartOption } from './echart-config';
 export class DashboardPage {
   constructor(private usageService: UsageService) {}
 
-  @ViewChild('dashboardContainer') dashboardContainer: ElementRef;
   @ViewChild('usageContainer') usageContainer: ElementRef;
 
   unsubscribe = new Subject();
   loading = false;
-  echartInstance;
-  option = echartOption;
+  chart;
+  usageReport: UsageReport;
 
   contractReferenceNumbers: string[] = [];
   selectedContractReferenceNumber: string;
 
   error: any;
+
+  get currentData() {
+    return this.usageReport?.content.find((c) => c.contractReferenceNumber === this.selectedContractReferenceNumber)
+      .usages;
+  }
 
   ngOnInit() {
     this.getUsage();
@@ -48,7 +51,12 @@ export class DashboardPage {
       )
       .subscribe(
         (res) => {
-          this.drawChart(res);
+          this.usageReport = res;
+
+          this.contractReferenceNumbers = res.content.map((c) => c.contractReferenceNumber);
+          this.selectedContractReferenceNumber = this.contractReferenceNumbers[0];
+
+          this.drawChart();
         },
         (err: HttpErrorResponse) => {
           this.error = err.error;
@@ -56,89 +64,30 @@ export class DashboardPage {
       );
   }
 
-  private drawChart(data: UsageReport) {
-    let { source, datasetItems, initialContractReferenceNumber } = this.buildEChartSourceAndDatasetItems(data);
-
-    this.selectedContractReferenceNumber = initialContractReferenceNumber;
-
-    // initial series
-    let { dataset, series } = this.buildEChartDataset(source, datasetItems);
-
-    this.option = {
-      ...this.option,
-      dataset,
-      series,
-    };
-
-    // dynamically set echarts size
-    // console.log(`${this.dashboardContainer.nativeElement.offsetWidth}px`);
-    this.echartInstance = echarts.init(this.usageContainer.nativeElement, null, { renderer: 'svg' });
-    this.echartInstance.setOption(this.option);
-  }
-
-  private buildEChartDataset(source: any[], datasetItems: any[]) {
-    let series = [
-      {
-        type: 'bar',
-        smooth: true,
-        color: '#1e94fc',
-        width: 10,
-        barWidth: '30%',
-        datasetId: this.contractReferenceNumbers[0],
-        showSymbol: false,
-        encode: {
-          x: 'yearMonth',
-          y: 'pointsTotal',
-          itemName: 'yearMonth',
-          tooltip: ['pointsTotal'],
-        },
-      },
-    ];
-
-    let dataset = [
-      {
-        id: 'dataset_raw',
-        source,
-      },
-      ...datasetItems,
-    ];
-    return { dataset, series };
-  }
-
-  private buildEChartSourceAndDatasetItems(data: UsageReport) {
-    let source: any[] = [['contractId', 'contractReferenceNumber', 'contractNumber', 'yearMonth', 'pointsTotal']];
-    let datasetItems = [];
-
-    data.content.forEach((c) => {
-      this.contractReferenceNumbers.push(c.contractReferenceNumber);
-
-      datasetItems.push({
-        id: c.contractReferenceNumber,
-        fromDatasetId: 'dataset_raw',
-        transform: {
-          type: 'filter',
-          config: {
-            and: [{ dimension: 'contractReferenceNumber', '=': c.contractReferenceNumber }],
-          },
-        },
-      });
-
-      c.usages.forEach((u) => {
-        source.push([c.contractId, c.contractReferenceNumber, u.contractNumber, u.yearMonth, u.pointsTotal]);
-      });
+  private drawChart() {
+    // Step 1: create Chart instance
+    this.chart = new F2.Chart<Usage>({
+      id: 'myChart',
+      width: this.usageContainer.nativeElement.offsetWidth,
+      height: 260,
+      pixelRatio: window.devicePixelRatio,
     });
-    return { source, datasetItems, initialContractReferenceNumber: this.contractReferenceNumbers[0] };
+
+    // Step 2: Load data
+    this.chart.source(this.currentData, chartSourceConfig);
+
+    this.chart.tooltip(tooltipConfig);
+
+    // Step 3：create chart with genre for xAxis and sold for yAxis
+    this.chart.interval().position('yearMonth*pointsTotal').color('l(90) 0:#1890ff 1:#70cdd0'); // gradient
+
+    // Step 4: render
+    this.chart.render();
   }
 
   changeContractNumber(e) {
     this.selectedContractReferenceNumber = e.detail.value;
 
-    // update series to update view
-    let seriesItem = { ...this.option.series[0], datasetId: this.selectedContractReferenceNumber };
-    this.option = {
-      ...this.option,
-      series: [seriesItem],
-    };
-    this.echartInstance.setOption(this.option);
+    this.chart.changeData(this.currentData, chartSourceConfig);
   }
 }

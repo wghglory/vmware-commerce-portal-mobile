@@ -22,18 +22,20 @@
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <div class="dashboard-container"
-        #dashboardContainer>
-        <div #usageContainer
-          style="height:18rem;">
-          <ion-skeleton-text animated
-            *ngIf="!selectedContractReferenceNumber && !error"></ion-skeleton-text>
-          <ion-text color="danger"
-            *ngIf="error">
-            <p>{{ error.message }}</p>
-          </ion-text>
-        </div>
+      <div #usageContainer>
+        <!-- canvas style height won't affect rendering height, 0 means to give space for skeleton -->
+        <canvas id="myChart"
+          style="height: 0"></canvas>
+        <ion-skeleton-text animated
+          style="height: 240px;"
+          *ngIf="!selectedContractReferenceNumber && !error"></ion-skeleton-text>
       </div>
+
+      <ion-text color="danger"
+        *ngIf="error">
+        <p>{{ error.message }}</p>
+      </ion-text>
+
       <ion-item *ngIf="contractReferenceNumbers.length > 0">
         <ion-label position="floating">Contract Reference Number</ion-label>
         <ion-select placeholder="Select One"
