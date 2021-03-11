@@ -44,6 +44,11 @@
 
     .badges {
       padding: 0.4rem 0;
+
+      ion-badge {
+        margin: 0 0.5rem 0.5rem 0.5rem;
+        line-height: 1rem;
+      }
     }
   }
 }
