@@ -38,6 +38,7 @@ export class DashboardPage {
     this.getUsage();
   }
 
+  // this method creates service that calls api /dashboard/spUsage
   getUsage() {
     this.loading = true;
 

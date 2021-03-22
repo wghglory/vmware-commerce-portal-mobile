@@ -4,6 +4,8 @@ import { Storage } from '@ionic/storage';
 
 import { CURRENT_USER } from '@vcp-share/const';
 import { User } from '@vcp-core/models/user';
+import { Router } from '@angular/router';
+import { AuthService } from '@vcp-core/services/auth.service';
 
 @Component({
   selector: 'app-me',
@@ -11,7 +13,8 @@ import { User } from '@vcp-core/models/user';
   styleUrls: ['./me.page.scss'],
 })
 export class MePage implements OnInit {
-  constructor(private storage: Storage) {}
+  constructor(private storage: Storage, private authService: AuthService,
+    private router: Router) {}
 
   user: User = {} as User;
 
@@ -35,5 +38,12 @@ export class MePage implements OnInit {
   async ngOnInit() {
     const { user } = await this.storage.get(CURRENT_USER);
     this.user = user;
+  }
+
+  // to-do: make logout method in profile page
+  async logOutOnProfile() {
+    console.log("logged out?");
+    await this.authService.logout();
+    this.router.navigateByUrl('/', {replaceUrl: true});
   }
 }

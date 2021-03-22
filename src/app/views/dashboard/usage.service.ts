@@ -9,6 +9,7 @@ import { environment } from '@vcp-env/environment';
 export class UsageService {
   constructor(private http: HttpClient) {}
 
+  // this method creates service that calls api /dashboard/spUsage, this is a get request
   getUsage() {
     return this.http.get<UsageReport>(`${environment.apiPrefix}/dashboard/spUsage`);
   }
