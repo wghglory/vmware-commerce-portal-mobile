@@ -73,7 +73,14 @@
   }
 }
 
-#logout-button {
-  position: relative;
-  margin:auto;
+.logout-button {
+  position: absolute;
+  float: right;
+  top: 0;
+  right:0;
 }
+
+ion-button {
+  --color: white;
+  --background: linear-gradient(to right, #1595b6, rgba(31, 38, 103, 0.9))
+} 

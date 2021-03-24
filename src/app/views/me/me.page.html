@@ -8,6 +8,13 @@
       </ion-avatar>
     </div>
 
+  <div class="logout-button">
+    <ion-button shape="round" (click)="logOutOnProfile()">
+      <!--Basic: auto-select the icon based on the platform -->
+      <ion-icon name="log-out"></ion-icon>
+    </ion-button>
+  </div>
+
     <div class="user-container">
       <div class="email">{{ user.email }}</div>
       <h2>{{ name }}</h2>
@@ -17,15 +24,5 @@
       </div>
     </div>
   </section>
-
-  <!--logout button html -->
-  <ion-fab vertical="top" horizontal="end" slot="fixed">
-    <div id="logout-button">
-      <ion-fab-button (click)="logOutOnProfile()">
-        <!--Basic: auto-select the icon based on the platform -->
-        <ion-icon name="log-out"></ion-icon>
-      </ion-fab-button>
-    </div>
-  </ion-fab>
 
 </ion-content>

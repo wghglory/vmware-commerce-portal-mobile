@@ -5,6 +5,7 @@ import { Storage } from '@ionic/storage';
 import { CURRENT_USER } from '@vcp-share/const';
 import { User } from '@vcp-core/models/user';
 import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { AuthService } from '@vcp-core/services/auth.service';
 
 @Component({
@@ -14,7 +15,7 @@ import { AuthService } from '@vcp-core/services/auth.service';
 })
 export class MePage implements OnInit {
   constructor(private storage: Storage, private authService: AuthService,
-    private router: Router) {}
+    private navCtrl: NavController,) {}
 
   user: User = {} as User;
 
@@ -44,6 +45,9 @@ export class MePage implements OnInit {
   async logOutOnProfile() {
     console.log("logged out?");
     await this.authService.logout();
-    this.router.navigateByUrl('/', {replaceUrl: true});
+    this.navCtrl.navigateRoot(['/']);
   }
+
+  // use this.navCtrl.navigateRoot() instead of angular router
+  // replaced this.router.navigateByUrl('/', {replaceUrl: true});
 }

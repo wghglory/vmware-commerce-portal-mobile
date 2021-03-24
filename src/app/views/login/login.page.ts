@@ -73,11 +73,6 @@ export class LoginPage implements OnInit, OnDestroy {
       );
   }
 
-  //to-do make logout method here, is this method being used? not sure
-  logout() {
-    this.authService.logout();
-  }
-
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       username: ['testspadmin@vmware.com.mock', Validators.required],
