@@ -46,10 +46,8 @@ export class AuthService {
     return this.httpClient.post<AuthResponse>(`${environment.apiPrefix}/iam/session`, data);
   }
 
-  async logout() {
-    await this.storage.remove(XSRF_TOKEN);
-    await this.storage.remove(CURRENT_USER);
-    this.tokenSubject.next('');
-    this.currentUserSubject.next(null);
+  logout(): Observable<any> {
+    return this.httpClient.delete<any>(`${environment.apiPrefix}/iam/session`);
   }
+
 }

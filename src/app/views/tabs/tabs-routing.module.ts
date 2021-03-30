@@ -9,16 +9,16 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'dashboard', // tab1
+        path: 'dashboard', 
         loadChildren: () => import('../dashboard/dashboard.module').then((m) => m.DashboardPageModule),
       },
       {
-        path: 'me', // tab2
+        path: 'me',
         loadChildren: () => import('../me/me.module').then((m) => m.MePageModule),
       },
       {
         path: '',
-        redirectTo: 'dashboard', // redirect to tab1
+        redirectTo: 'dashboard',
         pathMatch: 'full',
       },
     ],
