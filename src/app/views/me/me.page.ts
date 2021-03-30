@@ -69,7 +69,7 @@ export class MePage implements OnInit {
       takeUntil(this.unsubscribe)).subscribe(
       async (authRes) => {
         await this.removeTokenAndUserInfo();
-        this.navCtrl.navigateRoot(['/']);
+        this.navCtrl.navigateRoot(['/login']);
       },
       (err: HttpErrorResponse) => {
         this.error = err.error;
