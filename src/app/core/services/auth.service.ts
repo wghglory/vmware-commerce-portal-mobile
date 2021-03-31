@@ -46,8 +46,7 @@ export class AuthService {
     return this.httpClient.post<AuthResponse>(`${environment.apiPrefix}/iam/session`, data);
   }
 
-  logout(): Observable<Object> {
-    return this.httpClient.delete<Object>(`${environment.apiPrefix}/iam/session`);
+  logout(): Observable<void> {
+    return this.httpClient.delete<void>(`${environment.apiPrefix}/iam/session`);
   }
-
 }

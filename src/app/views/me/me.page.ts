@@ -4,12 +4,10 @@ import { Storage } from '@ionic/storage';
 
 import { CURRENT_USER, XSRF_TOKEN } from '@vcp-share/const';
 import { User } from '@vcp-core/models/user';
-import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { AuthService } from '@vcp-core/services/auth.service';
-import { finalize, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { CookieService } from 'ngx-cookie-service';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -18,8 +16,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./me.page.scss'],
 })
 export class MePage implements OnInit {
-  constructor(private storage: Storage, private authService: AuthService,
-    private navCtrl: NavController, private cookieService: CookieService) {}
+  constructor(private storage: Storage, private authService: AuthService, private navCtrl: NavController) {}
 
   user: User = {} as User;
   error: any;
@@ -43,14 +40,7 @@ export class MePage implements OnInit {
     }
   }
 
-  async ngOnInit() {
-    const { user } = await this.storage.get(CURRENT_USER);
-    this.user = user;
-  }
-
   async removeTokenAndUserInfo() {
-    const token = this.cookieService.get(XSRF_TOKEN);
-
     this.authService.tokenSubject.next('');
     this.authService.currentUserSubject.next(null);
 
@@ -58,24 +48,28 @@ export class MePage implements OnInit {
     await this.storage.remove(CURRENT_USER);
   }
 
+  logOutOnProfile() {
+    this.authService
+      .logout()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(
+        async (authRes) => {
+          await this.removeTokenAndUserInfo();
+          this.navCtrl.navigateRoot(['/login']);
+        },
+        (err: HttpErrorResponse) => {
+          this.error = err.error;
+        },
+      );
+  }
+
+  async ngOnInit() {
+    const { user } = await this.storage.get(CURRENT_USER);
+    this.user = user;
+  }
+
   ngOnDestroy() {
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }
-
-  // to-do: make logout method in profile page
-  logOutOnProfile() {
-    this.authService.logout().pipe(
-      takeUntil(this.unsubscribe)).subscribe(
-      async (authRes) => {
-        await this.removeTokenAndUserInfo();
-        this.navCtrl.navigateRoot(['/login']);
-      },
-      (err: HttpErrorResponse) => {
-        this.error = err.error;
-      }
-    );
-    
-  }
-
 }
