@@ -1,0 +1,17 @@
+{
+  "prettier.arrowParens": "always",
+  "prettier.useTabs": false,
+  "prettier.bracketSpacing": true,
+  "prettier.tabWidth": 2,
+  "prettier.singleQuote": true,
+  "prettier.printWidth": 120,
+  "prettier.trailingComma": "all",
+  "prettier.semi": true,
+  "prettier.proseWrap": "never",
+  "prettier.disableLanguages": ["html"],
+  "html.format.enable": true,
+  "html.format.wrapAttributes": "force",
+  "html.format.endWithNewline": true,
+  "html.format.wrapLineLength": 120,
+  "editor.formatOnSave": true
+}
