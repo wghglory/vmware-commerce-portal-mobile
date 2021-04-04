@@ -1,0 +1,13 @@
+ion-button {
+  --color: white;
+  --background: linear-gradient(to right, #1595b6, rgba(31, 38, 103, 0.9));
+}
+
+ion-item {
+  --border-color: black;
+}
+
+:root {
+  --ion-safe-area-top: 20px;
+  --ion-safe-area-bottom: 22px;
+}

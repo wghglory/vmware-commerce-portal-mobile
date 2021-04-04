@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Tasks</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+    
+    <ion-list-header>
+      Inbox
+    </ion-list-header>
+
+    <ion-item button detail="true" *ngFor="let task of list" (click)="itemSelected('task.id')">
+      <ion-label>
+        <h2>{{task.data.aggregator.name + ' ' + '(' + task.data.yearMonth + ')'}}</h2>
+        <h3>{{task.data.contractSKU}}</h3>
+      </ion-label>
+    </ion-item>
+
+    <ion-text color="danger"
+    *ngIf="error">
+    <p>{{ error.message }}</p>
+    </ion-text>
+
+      <!--<ion-item button detail="true" (click)="itemSelected('cow')">
+      <ion-label>
+        <h2>MBO Pending Report (Aug, 2020)</h2>
+        <h3>Contract SKU: VCAN-VEL-CUST-C (Custom)</h3>
+      </ion-label>
+    </ion-item>
+
+    <ion-item button detail="true" (click)="itemSelected('cat')">
+      <ion-label>
+        <h2>MBO Pending Report (Aug, 2020)</h2>
+        <h3>Contract SKU: VSPP3-360-C (Pay-Go)</h3>
+      </ion-label>
+    </ion-item>
+
+    <button ion-item *ngFor="let item of items" (click)="itemSelected(item)">
+      {{ item }}
+    </button> -->
+
+  </ion-list>
+
+</ion-content>
