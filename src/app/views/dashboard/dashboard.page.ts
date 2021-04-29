@@ -23,9 +23,11 @@ export class DashboardPage {
   loading = false;
   chart;
   usageReport: UsageReport;
+  allContracts = 'All Contracts';
 
   contractReferenceNumbers: string[] = [];
   selectedContractReferenceNumber: string;
+  aggData: Usage[] = [];
 
   error: any;
 
@@ -54,7 +56,35 @@ export class DashboardPage {
           this.usageReport = res;
 
           this.contractReferenceNumbers = res.content.map((c) => c.contractReferenceNumber);
+          this.contractReferenceNumbers.push(this.allContracts);
           this.selectedContractReferenceNumber = this.contractReferenceNumbers[0];
+
+          const aggregatedMap = {};
+          this.usageReport.content.forEach((c) => {
+            c.usages.forEach((u) => {
+              if (u.yearMonth in aggregatedMap) {
+                aggregatedMap[u.yearMonth] = aggregatedMap[u.yearMonth] + u.pointsTotal;
+              } else {
+                aggregatedMap[u.yearMonth] = u.pointsTotal;
+              }
+            });
+          });
+          for (const m in aggregatedMap) {
+            this.aggData.push({
+              contractNumber: '',
+              yearMonth: m,
+              pointsTotal: aggregatedMap[m],
+            } as Usage);
+          }
+          this.aggData.sort((a, b) => {
+            if (a.yearMonth < b.yearMonth) {
+              return -1;
+            } else if (a.yearMonth > b.yearMonth) {
+              return 1;
+            } else {
+              return 0;
+            }
+          });
 
           this.drawChart();
         },
@@ -88,6 +118,10 @@ export class DashboardPage {
   changeContractNumber(e) {
     this.selectedContractReferenceNumber = e.detail.value;
 
-    this.chart.changeData(this.currentData, chartSourceConfig);
+    if (this.selectedContractReferenceNumber === this.allContracts) {
+      this.chart.changeData(this.aggData, chartSourceConfig);
+    } else {
+      this.chart.changeData(this.currentData, chartSourceConfig);
+    }
   }
 }
