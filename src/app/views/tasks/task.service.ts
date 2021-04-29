@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@vcp-env/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +19,10 @@ export class TaskService {
 
   getTaskById(id: string) {
     return this.http.get<Task>(`${environment.apiPrefix}/tasks/${id}`);
+  }
+
+  submitOrSave(data: TaskPayload, resourceID: string): Observable<TaskPayload> {
+    return this.http.post<TaskPayload>(`${environment.apiPrefix}/mbo/${resourceID}/updateUsage`, data);
   }
 }
 
@@ -68,4 +73,12 @@ export interface Aggregator {
 export interface ServiceProvider {
   name: string;
   id: string;
+}
+
+export interface TaskPayload {
+  serviceProviderPurchaseOrder: number;
+  usages: [];
+  comment: string;
+  submit: boolean;
+  zeroUsage: boolean;
 }

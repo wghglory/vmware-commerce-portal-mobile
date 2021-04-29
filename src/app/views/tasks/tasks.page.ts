@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 
 import { NavController } from '@ionic/angular';
 
-import { TaskService, Content } from './task-service.service';
+import { TaskService, Content } from './task.service';
 
 @Component({
   selector: 'app-tasks',
