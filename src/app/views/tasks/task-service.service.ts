@@ -15,6 +15,19 @@ export class TaskService {
   getTasks() {
     return this.http.get<Tasks>(`${environment.apiPrefix}/tasks?sort=createdTime,asc&limit=10000`);
   }
+
+  getTaskById(id: string) {
+    return this.http.get<Task>(`${environment.apiPrefix}/tasks/${id}`);
+  }
+}
+
+export interface Task {
+  id: string;
+  name: string;
+  resourceType: string;
+  resourceId: string;
+  createdTime: string;
+  data: Data;
 }
 
 export interface TaskCount {

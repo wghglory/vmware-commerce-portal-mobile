@@ -1,11 +1,156 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-title>Task Details</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-list-header>
-    Inbox part 2
-  </ion-list-header>
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+      <ion-title>Task Details</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <form [formGroup]="detailForm"
+    (ngSubmit)="submit()">
+
+    <ion-card *ngIf="task">
+      <ion-card-header>
+        <ion-card-title>Overview</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-label class="font-semibold">Resource Type</ion-label>
+            </ion-col>
+            <ion-col>
+              {{task.resourceType}}
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-label class="font-semibold">Task ID</ion-label>
+            </ion-col>
+            <ion-col>
+              {{task.id}}
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-label class="font-semibold">Task Name</ion-label>
+            </ion-col>
+            <ion-col>
+              {{task.name}}
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-label class="font-semibold">Contract SKU</ion-label>
+            </ion-col>
+            <ion-col>
+              {{task.data.contractSKU}}
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-label class="font-semibold">Requested</ion-label>
+            </ion-col>
+            <ion-col>
+              {{task.createdTime}}
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-label class="font-semibold">Usage Period</ion-label>
+            </ion-col>
+            <ion-col>
+              {{task.data.yearMonth}}
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-label class="font-semibold">Purchase Order
+                <ion-text color="danger">*</ion-text>
+              </ion-label>
+            </ion-col>
+            <ion-col>
+              <ion-input required
+                class="ion-no-padding"
+                formControlName="purchaseOrder"
+                type="text"
+                placeholder="type number"></ion-input>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card *ngIf="task">
+      <ion-card-header>
+        <ion-card-title>Aggregator</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        {{task.data.aggregator.name}}
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card *ngIf="task">
+      <ion-card-header>
+        <ion-card-title>Service Provider</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        {{task.data.serviceProvider.name}}
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Comments</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-textarea maxlength="256"
+                formControlName="comments"
+                placeholder="Enter comment..."></ion-textarea>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col class="ion-text-center space-x-4">
+
+              <ion-button class="btn-primary"
+                type="submit"
+                [disabled]="submitting || detailForm.invalid">Submit</ion-button>
+
+              <ion-button class="btn-outline"
+                fill="outline"
+                [disabled]="saving || detailForm.invalid"
+                type="button"
+                (click)="save()">Save</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+  </form>
+
+  <ion-text color="danger"
+    *ngIf="error">
+    <p>{{ error.message }}</p>
+  </ion-text>
+
 </ion-content>
