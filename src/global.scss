@@ -25,6 +25,11 @@
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
 
+:root {
+  --ion-safe-area-top: 20px;
+  --ion-safe-area-bottom: 22px;
+}
+
 ion-header {
   background: linear-gradient(to right, #a0ddea, #50e3c2);
 }
