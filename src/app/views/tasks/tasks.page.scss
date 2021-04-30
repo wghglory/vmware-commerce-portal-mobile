@@ -1,13 +1,10 @@
-ion-button {
-  --color: white;
-  --background: linear-gradient(to right, #1595b6, rgba(31, 38, 103, 0.9));
-}
+// ion-item {
+//   --padding-end: 20px;
+// }
 
-ion-item {
-  --border-color: black;
-}
-
-:root {
-  --ion-safe-area-top: 20px;
-  --ion-safe-area-bottom: 22px;
+.yearMonth {
+  font-size: 12px;
+  color: rgb(92, 91, 91);
+  float: right;
+  padding-right: 10px;
 }

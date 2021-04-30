@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 
 import { NavController } from '@ionic/angular';
 
-import { Tasks, TaskService } from './task-service.service';
+import { TaskService, Content } from './task-service.service';
 
 @Component({
   selector: 'app-tasks',
@@ -19,18 +19,9 @@ export class TasksPage implements OnInit {
   unsubscribe = new Subject();
   loading = false;
 
-  task: Tasks;
-  taskList: string[] = [];
-  selectedTask: string;
+  taskList: Content[];
 
   error: any;
-
-  get currentTask() {
-    return this.task?.content.find((t) => t.id === this.selectedTask).data;
-  }
-
-  // to-do: print inbox task-title, stylize list, add display-detail button
-  list: Array<Object> = [];
 
   getMyTasks() {
     this.loading = true;
@@ -45,13 +36,7 @@ export class TasksPage implements OnInit {
       )
       .subscribe(
         (res) => {
-          // map task info here
-          this.task = res;
-          console.log(res);
-          this.taskList = res.content.map((t) => t.id);
-          this.list = res.content.map((t) => t);
-          console.log(this.list);
-          //this.selectedTask = this.selectedTask[0];
+          this.taskList = res.content;
         },
         (err: HttpErrorResponse) => {
           this.error = err.error;
@@ -59,9 +44,8 @@ export class TasksPage implements OnInit {
       );
   }
 
-  // to-do: on click, display task detail, think about how the page changes
-  itemSelected(item: string) {
-    console.log('Selected Item', item);
+  itemSelected(task: Content) {
+    this.navCtrl.navigateForward([`/tabs/tasks/${task.id}`], { state: { task } });
   }
 
   ngOnDestroy() {
