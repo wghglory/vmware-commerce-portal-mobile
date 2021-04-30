@@ -9,7 +9,7 @@
     "start": "ionic serve",
     "start.ios": "ionic cap run ios -l --external --public-host=192.168.0.102",
     "start.android": "ionic capacitor run android -l --external --public-host=192.168.0.102",
-    "build": "ionic build",
+    "build": "NODE_ENV=production ionic build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
@@ -35,7 +35,7 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.1101.4",
+    "@angular-devkit/build-angular": "~0.1102.11",
     "@angular/cli": "~11.1.4",
     "@angular/compiler": "~11.2.0",
     "@angular/compiler-cli": "~11.2.0",
@@ -46,6 +46,7 @@
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
+    "autoprefixer": "^10.2.5",
     "codelyzer": "^6.0.0",
     "commitizen": "^4.2.3",
     "cz-conventional-changelog": "^3.3.0",
@@ -59,8 +60,10 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
     "lint-staged": "^10.5.4",
+    "postcss": "^8.2.13",
     "prettier": "^2.2.1",
     "protractor": "~7.0.0",
+    "tailwindcss": "^2.1.2",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
     "typescript": "~4.0.2"
