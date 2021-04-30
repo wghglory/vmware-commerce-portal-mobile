@@ -5,6 +5,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { takeUntil, finalize } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
+import { NavController } from '@ionic/angular';
+
 import { Task, TaskService } from '../task-service.service';
 
 @Component({
@@ -18,6 +20,7 @@ export class TaskDetailPage implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
+    private navCtrl: NavController,
   ) {
     this.detailForm = this.formBuilder.group({
       purchaseOrder: ['', [Validators.required, Validators.min(0), Validators.pattern(/\d+/)]],
@@ -35,6 +38,10 @@ export class TaskDetailPage implements OnInit {
   task: Task;
 
   error: any;
+
+  goBack() {
+    this.navCtrl.navigateBack(['/tabs/tasks']);
+  }
 
   submit() {
     if (this.detailForm.invalid) {

@@ -1,28 +1,31 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar button
+    (click)="goBack()"
+    detail="true">
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-icon name="chevron-back-outline"
+        class="ml-2"></ion-icon>
     </ion-buttons>
     <ion-title>Task Details</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+  <!-- <ion-header collapse="condense">
     <ion-toolbar>
       <ion-buttons slot="start">
         <ion-back-button></ion-back-button>
       </ion-buttons>
       <ion-title>Task Details</ion-title>
     </ion-toolbar>
-  </ion-header>
+  </ion-header> -->
 
   <form [formGroup]="detailForm"
     (ngSubmit)="submit()">
 
     <ion-card *ngIf="task">
       <ion-card-header>
-        <ion-card-title>Overview</ion-card-title>
+        <ion-card-title class="text-xl">Overview</ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
@@ -95,7 +98,7 @@
 
     <ion-card *ngIf="task">
       <ion-card-header>
-        <ion-card-title>Aggregator</ion-card-title>
+        <ion-card-title class="text-xl">Aggregator</ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
@@ -105,7 +108,7 @@
 
     <ion-card *ngIf="task">
       <ion-card-header>
-        <ion-card-title>Service Provider</ion-card-title>
+        <ion-card-title class="text-xl">Service Provider</ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
@@ -115,7 +118,7 @@
 
     <ion-card>
       <ion-card-header>
-        <ion-card-title>Comments</ion-card-title>
+        <ion-card-title class="text-xl">Comments</ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
