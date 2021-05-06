@@ -7,7 +7,8 @@ import { Subject } from 'rxjs';
 
 import { NavController } from '@ionic/angular';
 
-import { Task, TaskService } from '../task-service.service';
+import {Task, Tasks, TaskService} from '../task-service.service';
+import {SubmitService, Submission} from './submit.service';
 
 @Component({
   selector: 'app-task-detail',
@@ -17,6 +18,7 @@ import { Task, TaskService } from '../task-service.service';
 export class TaskDetailPage implements OnInit {
   constructor(
     private taskService: TaskService,
+    private submitService: SubmitService,
     private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -50,7 +52,25 @@ export class TaskDetailPage implements OnInit {
     this.submitting = true;
     const { purchaseOrder, comments } = this.detailForm.value;
 
-    // TODO: call API
+    const resourceID = this.task.resourceId;
+
+    this.submitService
+      .submit({
+        serviceProviderPurchaseOrder: purchaseOrder,
+        usages: [],
+        comment: comments,
+        submit: true,
+        zeroUsage: false} as Submission,
+        resourceID)
+      .pipe(
+        takeUntil(this.unsubscribe),
+        finalize(() => (this.submitting = false)),
+      )
+      .subscribe(
+        (err: HttpErrorResponse) => {
+          this.error = err.error;
+        },
+      );
   }
 
   save() {
