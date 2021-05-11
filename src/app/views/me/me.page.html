@@ -7,14 +7,6 @@
         <img src="../../../assets/images/avatar.svg">
       </ion-avatar>
     </div>
-
-  <div class="logout-button">
-    <ion-button shape="round" (click)="logOutOnProfile()">
-      <!--Basic: auto-select the icon based on the platform -->
-      <ion-icon name="log-out"></ion-icon>
-    </ion-button>
-  </div>
-
     <div class="user-container">
       <div class="email">{{ user.email }}</div>
       <h2>{{ name }}</h2>
@@ -24,5 +16,9 @@
       </div>
     </div>
   </section>
-
+  <div class="logout-container">
+    <ion-button (click)="logOutOnProfile()" fill="outline" class="btn-outline">
+      Log Out
+    </ion-button>
+  </div>
 </ion-content>

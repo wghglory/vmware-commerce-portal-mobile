@@ -36,5 +36,5 @@
 }
 
 ion-button {
-  --background: #0072a3;
+  --background: var(--clr-btn-primary-bg-color);
 }
