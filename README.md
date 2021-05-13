@@ -1,4 +1,4 @@
-# VMware cloud provider service mobile
+# VMware commerce portal mobile
 
 ## Get Started
 
